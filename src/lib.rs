@@ -2,7 +2,6 @@
 //! [Firmata Protocol](https://github.com/firmata/protocol)
 use std::str;
 use std::io;
-use std::thread;
 use std::io::{Write, Read, Error, Result, ErrorKind};
 
 pub const ENCODER_DATA: u8 = 0x61;
@@ -62,12 +61,7 @@ fn read<T: io::Read>(port: &mut T, len: i32) -> Result<(Vec<u8>)> {
                    break;
                 }
             }
-            Err(e) => {
-                 if e.kind() == ErrorKind::TimedOut {
-                    thread::sleep_ms(1);
-                    continue
-                }
-            }
+            Err(e) => { return Err(e); }
         }
     }
 
