@@ -167,9 +167,8 @@ impl<T: io::Read+io::Write> Board<T> {
         try!(b.read_and_decode());
         try!(b.query_analog_mapping());
         try!(b.read_and_decode());
-
-        b.report_digital(0, 1);
-        b.report_digital(1, 1);
+        try!(b.report_digital(0, 1));
+        try!(b.report_digital(1, 1));
 
         return Ok(b);
     }
